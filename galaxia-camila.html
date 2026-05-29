@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Galaxia de Corazones para Camila</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0e27;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+
+    .galaxia-contenedor {
+      position: relative;
+      width: 500px;
+      height: 500px;
+    }
+
+    .centro {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10;
+    }
+
+    .nombre {
+      font-size: 48px;
+      font-weight: bold;
+      color: #ff1493;
+      text-shadow: 0 0 20px #ff1493, 0 0 40px #ff69b4;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+      animation: brillar 2s ease-in-out infinite;
+    }
+
+    .mensaje {
+      font-size: 28px;
+      color: #ffb6c1;
+      text-shadow: 0 0 15px #ffb6c1, 0 0 30px #ff69b4;
+      animation: brillar 2s ease-in-out infinite;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes brillar {
+      0%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 20px #ff1493, 0 0 40px #ff69b4;
+      }
+      50% {
+        opacity: 0.7;
+        text-shadow: 0 0 10px #ff1493, 0 0 20px #ff69b4;
+      }
+    }
+
+    /* Órbitas */
+    .orbita {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(255, 105, 180, 0.3);
+      border-radius: 50%;
+    }
+
+    .orbita1 { width: 150px; height: 150px; }
+    .orbita2 { width: 250px; height: 250px; }
+    .orbita3 { width: 350px; height: 350px; }
+    .orbita4 { width: 450px; height: 450px; }
+
+    /* Corazones en órbita */
+    .corazon-orbita {
+      position: absolute;
+      font-size: 24px;
+      animation: girar 8s linear infinite;
+    }
+
+    @keyframes girar {
+      0% { transform: rotate(0deg) translateX(75px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(75px) rotate(-360deg); }
+    }
+
+    .corazon-orbita.orbita1 {
+      animation-duration: 8s;
+    }
+
+    .corazon-orbita.orbita2 {
+      animation-duration: 12s;
+      animation-direction: reverse;
+    }
+
+    .corazon-orbita.orbita3 {
+      animation-duration: 16s;
+    }
+
+    .corazon-orbita.orbita4 {
+      animation-duration: 20s;
+      animation-direction: reverse;
+    }
+
+    /* Estrellas de fondo */
+    .estrella {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: parpadear 3s infinite;
+    }
+
+    @keyframes parpadear {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* Posiciones de órbita dinámicas */
+    .centro::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #ff1493, #ff69b4);
+      border-radius: 50%;
+      box-shadow: 0 0 20px #ff1493;
+      z-index: -1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="galaxia-contenedor">
+    <!-- Órbitas -->
+    <div class="orbita orbita1"></div>
+    <div class="orbita orbita2"></div>
+    <div class="orbita orbita3"></div>
+    <div class="orbita orbita4"></div>
+
+    <!-- Centro -->
+    <div class="centro">
+      <div class="nombre">CAMILA</div>
+      <div class="mensaje">💖 TE AMO 💖</div>
+    </div>
+
+    <!-- Corazones en órbita 1 -->
+    <div class="corazon-orbita orbita1" style="top: 50%; left: 50%;">❤️</div>
+    <div class="corazon-orbita orbita1" style="top: 50%; left: 50%; animation-delay: 2s;">❤️</div>
+    <div class="corazon-orbita orbita1" style="top: 50%; left: 50%; animation-delay: 4s;">❤️</div>
+    <div class="corazon-orbita orbita1" style="top: 50%; left: 50%; animation-delay: 6s;">❤️</div>
+
+    <!-- Corazones en órbita 2 -->
+    <div class="corazon-orbita orbita2" style="top: 50%; left: 50%;">💕</div>
+    <div class="corazon-orbita orbita2" style="top: 50%; left: 50%; animation-delay: 3s;">💕</div>
+    <div class="corazon-orbita orbita2" style="top: 50%; left: 50%; animation-delay: 6s;">💕</div>
+    <div class="corazon-orbita orbita2" style="top: 50%; left: 50%; animation-delay: 9s;">💕</div>
+
+    <!-- Corazones en órbita 3 -->
+    <div class="corazon-orbita orbita3" style="top: 50%; left: 50%;">💖</div>
+    <div class="corazon-orbita orbita3" style="top: 50%; left: 50%; animation-delay: 4s;">💖</div>
+    <div class="corazon-orbita orbita3" style="top: 50%; left: 50%; animation-delay: 8s;">💖</div>
+    <div class="corazon-orbita orbita3" style="top: 50%; left: 50%; animation-delay: 12s;">💖</div>
+
+    <!-- Corazones en órbita 4 -->
+    <div class="corazon-orbita orbita4" style="top: 50%; left: 50%;">💗</div>
+    <div class="corazon-orbita orbita4" style="top: 50%; left: 50%; animation-delay: 5s;">💗</div>
+    <div class="corazon-orbita orbita4" style="top: 50%; left: 50%; animation-delay: 10s;">💗</div>
+    <div class="corazon-orbita orbita4" style="top: 50%; left: 50%; animation-delay: 15s;">💗</div>
+  </div>
+
+  <script>
+    // Crear estrellas de fondo
+    function crearEstrellas() {
+      for (let i = 0; i < 100; i++) {
+        const estrella = document.createElement('div');
+        estrella.classList.add('estrella');
+        estrella.style.left = Math.random() * window.innerWidth + 'px';
+        estrella.style.top = Math.random() * window.innerHeight + 'px';
+        estrella.style.animationDuration = (2 + Math.random() * 3) + 's';
+        estrella.style.animationDelay = Math.random() * 3 + 's';
+        document.body.appendChild(estrella);
+      }
+    }
+
+    crearEstrellas();
+  </script>
+
+</body>
+</html>
