@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta Interactiva - Para Camila</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Partículas de fondo */
+    .particula {
+      position: fixed;
+      pointer-events: none;
+      font-size: 20px;
+      opacity: 0.6;
+      animation: flotar 6s infinite;
+    }
+
+    @keyframes flotar {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.6;
+      }
+      50% {
+        transform: translateY(-30px) rotate(180deg);
+        opacity: 1;
+      }
+    }
+
+    .contenedor-principal {
+      perspective: 1000px;
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+    }
+
+    .carta {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform-style: preserve-3d;
+      position: relative;
+    }
+
+    .carta.abierta {
+      transform: rotateY(180deg);
+    }
+
+    .carta-frente {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 60px 30px;
+      text-align: center;
+      color: white;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      backface-visibility: hidden;
+    }
+
+    .carta-frente:hover {
+      transform: scale(1.02);
+    }
+
+    .icono-sobre {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    .titulo-sobre {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .subtitulo-sobre {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+
+    .instruccion {
+      font-size: 14px;
+      opacity: 0.8;
+      animation: parpadeo 1.5s ease-in-out infinite;
+    }
+
+    @keyframes parpadeo {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+
+    .carta-detras {
+      background: white;
+      padding: 40px 30px;
+      min-height: 500px;
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contenido-carta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .saludo {
+      font-size: 24px;
+      color: #667eea;
+      font-weight: bold;
+      margin-bottom: 20px;
+      animation: slideIn 0.8s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .parrafo {
+      font-size: 15px;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 15px;
+      text-align: justify;
+      animation: fadeIn 0.8s ease-out;
+      animation-fill-mode: both;
+    }
+
+    .parrafo:nth-child(2) { animation-delay: 0.2s; }
+    .parrafo:nth-child(3) { animation-delay: 0.4s; }
+    .parrafo:nth-child(4) { animation-delay: 0.6s; }
+    .parrafo:nth-child(5) { animation-delay: 0.8s; }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .despedida {
+      font-size: 16px;
+      color: #764ba2;
+      font-weight: bold;
+      margin-top: 20px;
+      animation: slideUp 0.8s ease-out 1s both;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .firma {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #667eea;
+      animation: slideUp 0.8s ease-out 1.2s both;
+    }
+
+    .corazones-firma {
+      font-size: 20px;
+      margin-top: 10px;
+      animation: bounceHeart 1s ease-in-out infinite 1.4s;
+    }
+
+    @keyframes bounceHeart {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .pie-carta {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 13px;
+    }
+
+    .boton-cerrar {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .boton-cerrar:hover {
+      background: #764ba2;
+      transform: scale(1.05);
+    }
+
+    .linea-decorativa {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      margin: 15px auto;
+      border-radius: 2px;
+    }
+
+    /* Efecto brillo */
+    .brillo {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+      transform: rotate(45deg);
+      animation: brillar 3s infinite;
+    }
+
+    @keyframes brillar {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .titulo-sobre {
+        font-size: 24px;
+      }
+      .saludo {
+        font-size: 20px;
+      }
+      .parrafo {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="contenedor-principal">
+    <div class="carta" id="carta">
+      <!-- Frente de la carta -->
+      <div class="carta-frente" onclick="abrirCarta()">
+        <div class="icono-sobre">💌</div>
+        <div class="titulo-sobre">Tengo algo para ti</div>
+        <div class="subtitulo-sobre">Una carta especial</div>
+        <div class="linea-decorativa"></div>
+        <div class="instruccion">👆 Haz clic para abrir</div>
+      </div>
+
+      <!-- Atrás de la carta -->
+      <div class="carta-detras">
+        <div class="contenido-carta">
+          <div class="saludo">Mi amor ❤️</div>
+          
+          <p class="parrafo">
+            Hoy quería escribirte para decirte lo importante que eres para mí. Cada día que pasa a tu lado es un regalo que no me canso de agradecer. Tu sonrisa ilumina mis días más oscuros, y tu presencia llena de alegría cada momento que compartimos.
+          </p>
+
+          <p class="parrafo">
+            Eres la persona que quería conocer sin saber que te estaba buscando. En ti encontré no solo a alguien especial, sino a mi mejor amiga, mi compañera de aventuras, mi todo. Tu risa es mi música favorita, tus ojos son mi paz, tu corazón es mi hogar.
+          </p>
+
+          <p class="parrafo">
+            Quiero que sepas que cada detalle de ti me fascina: la forma en que sonríes, la manera en que me miras, tu bondad, tu fuerza, tu vulnerabilidad. Eres perfectamente imperfecta y eso es lo que te hace hermosa.
+          </p>
+
+          <p class="parrafo">
+            Prometo estar para ti en los buenos y malos momentos. Prometo hacerte feliz, hacerte reír, hacerte sentir que eres la persona más importante del mundo. Porque para mí, lo eres.
+          </p>
+
+          <p class="parrafo">
+            Te amo más de lo que las palabras pueden expresar. Eres mi razón de sonreír, mi razón de creer en el amor verdadero. Gracias por existir, por ser mía, por permitirme ser tuyo.
+          </p>
+
+          <div class="linea-decorativa"></div>
+
+          <div class="despedida">
+            Con todo mi amor,
+            <div class="firma">Siempre tuyo 💑</div>
+            <div class="corazones-firma">💕 💖 💗</div>
+          </div>
+        </div>
+
+        <div class="pie-carta">
+          <button class="boton-cerrar" onclick="cerrarCarta()">Cerrar carta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function abrirCarta() {
+      document.getElementById('carta').classList.add('abierta');
+      crearConfeti();
+    }
+
+    function cerrarCarta() {
+      document.getElementById('carta').classList.remove('abierta');
+    }
+
+    // Crear partículas flotantes
+    function crearParticulas() {
+      const emojis = ['💌', '💕', '💖', '💗', '✨', '🌹', '💑'];
+      
+      for (let i = 0; i < 15; i++) {
+        const particula = document.createElement('div');
+        particula.className = 'particula';
+        particula.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        particula.style.left = Math.random() * window.innerWidth + 'px';
+        particula.style.top = Math.random() * window.innerHeight + 'px';
+        particula.style.animationDuration = (4 + Math.random() * 4) + 's';
+        particula.style.animationDelay = Math.random() * 2 + 's';
+        document.body.appendChild(particula);
+      }
+    }
+
+    // Crear efecto confeti al abrir
+    function crearConfeti() {
+      const colores = ['💕', '💖', '💗', '✨', '🌹', '💑'];
+      for (let i = 0; i < 20; i++) {
+        const confeti = document.createElement('div');
+        confeti.style.position = 'fixed';
+        confeti.style.left = Math.random() * window.innerWidth + 'px';
+        confeti.style.top = '-10px';
+        confeti.textContent = colores[Math.floor(Math.random() * colores.length)];
+        confeti.style.fontSize = (20 + Math.random() * 20) + 'px';
+        confeti.style.pointerEvents = 'none';
+        confeti.style.zIndex = '9999';
+        document.body.appendChild(confeti);
+
+        let velocidad = 2 + Math.random() * 4;
+        let posY = 0;
+        let posX = Math.random() * 400 - 200;
+
+        const caer = setInterval(() => {
+          posY += velocidad;
+          confeti.style.transform = `translateY(${posY}px) translateX(${posX}px)`;
+          
+          if (posY > window.innerHeight) {
+            clearInterval(caer);
+            confeti.remove();
+          }
+        }, 30);
+      }
+    }
+
+    // Inicializar
+    crearParticulas();
+  </script>
+
+</body>
+</html>
