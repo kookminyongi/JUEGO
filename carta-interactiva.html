@@ -12,7 +12,7 @@
     }
 
     body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -63,10 +63,10 @@
     }
 
     .carta-frente {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
       padding: 60px 30px;
       text-align: center;
-      color: white;
+      color: #333;
       min-height: 500px;
       display: flex;
       flex-direction: column;
@@ -82,17 +82,18 @@
     }
 
     .icono-sobre {
-      font-size: 80px;
+      font-size: 100px;
       margin-bottom: 20px;
       animation: pulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
     }
 
     @keyframes pulse {
       0%, 100% {
-        transform: scale(1);
+        transform: scale(1) rotate(0deg);
       }
       50% {
-        transform: scale(1.1);
+        transform: scale(1.1) rotate(5deg);
       }
     }
 
@@ -100,7 +101,7 @@
       font-size: 32px;
       font-weight: bold;
       margin-bottom: 15px;
-      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .subtitulo-sobre {
@@ -140,7 +141,7 @@
 
     .saludo {
       font-size: 24px;
-      color: #667eea;
+      color: #FFD700;
       font-weight: bold;
       margin-bottom: 20px;
       animation: slideIn 0.8s ease-out;
@@ -185,7 +186,7 @@
 
     .despedida {
       font-size: 16px;
-      color: #764ba2;
+      color: #FFA500;
       font-weight: bold;
       margin-top: 20px;
       animation: slideUp 0.8s ease-out 1s both;
@@ -206,32 +207,32 @@
       margin-top: 15px;
       font-size: 18px;
       font-weight: bold;
-      color: #667eea;
+      color: #FFD700;
       animation: slideUp 0.8s ease-out 1.2s both;
     }
 
-    .corazones-firma {
-      font-size: 20px;
+    .girasoles-firma {
+      font-size: 24px;
       margin-top: 10px;
-      animation: bounceHeart 1s ease-in-out infinite 1.4s;
+      animation: bounceGirasol 1s ease-in-out infinite 1.4s;
     }
 
-    @keyframes bounceHeart {
+    @keyframes bounceGirasol {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.2); }
     }
 
     .pie-carta {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
       padding: 20px;
       text-align: center;
-      color: white;
+      color: #333;
       font-size: 13px;
     }
 
     .boton-cerrar {
-      background: #667eea;
-      color: white;
+      background: #FFD700;
+      color: #333;
       border: none;
       padding: 10px 20px;
       border-radius: 20px;
@@ -239,17 +240,18 @@
       font-size: 12px;
       transition: all 0.3s;
       margin-top: 10px;
+      font-weight: bold;
     }
 
     .boton-cerrar:hover {
-      background: #764ba2;
+      background: #FFA500;
       transform: scale(1.05);
     }
 
     .linea-decorativa {
       width: 60px;
       height: 3px;
-      background: linear-gradient(90deg, #667eea, #764ba2);
+      background: linear-gradient(90deg, #FFD700, #FFA500);
       margin: 15px auto;
       border-radius: 2px;
     }
@@ -292,7 +294,7 @@
     <div class="carta" id="carta">
       <!-- Frente de la carta -->
       <div class="carta-frente" onclick="abrirCarta()">
-        <div class="icono-sobre">💌</div>
+        <div class="icono-sobre">🌻</div>
         <div class="titulo-sobre">Tengo algo para ti</div>
         <div class="subtitulo-sobre">Una carta especial</div>
         <div class="linea-decorativa"></div>
@@ -302,7 +304,7 @@
       <!-- Atrás de la carta -->
       <div class="carta-detras">
         <div class="contenido-carta">
-          <div class="saludo">Mi amor ❤️</div>
+          <div class="saludo">Mi amor 🌻</div>
           
           <p class="parrafo">
             Hoy quería escribirte para decirte lo importante que eres para mí. Cada día que pasa a tu lado es un regalo que no me canso de agradecer. Tu sonrisa ilumina mis días más oscuros, y tu presencia llena de alegría cada momento que compartimos.
@@ -328,8 +330,8 @@
 
           <div class="despedida">
             Con todo mi amor,
-            <div class="firma">Siempre tuyo 💑</div>
-            <div class="corazones-firma">💕 💖 💗</div>
+            <div class="firma">Siempre tuyo 🌻</div>
+            <div class="girasoles-firma">🌻 🌻 🌻</div>
           </div>
         </div>
 
@@ -352,7 +354,7 @@
 
     // Crear partículas flotantes
     function crearParticulas() {
-      const emojis = ['💌', '💕', '💖', '💗', '✨', '🌹', '💑'];
+      const emojis = ['🌻', '🌼', '✨', '💛', '🌟'];
       
       for (let i = 0; i < 15; i++) {
         const particula = document.createElement('div');
@@ -368,14 +370,14 @@
 
     // Crear efecto confeti al abrir
     function crearConfeti() {
-      const colores = ['💕', '💖', '💗', '✨', '🌹', '💑'];
-      for (let i = 0; i < 20; i++) {
+      const colores = ['🌻', '🌼', '💛', '✨', '🌟'];
+      for (let i = 0; i < 25; i++) {
         const confeti = document.createElement('div');
         confeti.style.position = 'fixed';
         confeti.style.left = Math.random() * window.innerWidth + 'px';
         confeti.style.top = '-10px';
         confeti.textContent = colores[Math.floor(Math.random() * colores.length)];
-        confeti.style.fontSize = (20 + Math.random() * 20) + 'px';
+        confeti.style.fontSize = (20 + Math.random() * 30) + 'px';
         confeti.style.pointerEvents = 'none';
         confeti.style.zIndex = '9999';
         document.body.appendChild(confeti);
@@ -383,10 +385,12 @@
         let velocidad = 2 + Math.random() * 4;
         let posY = 0;
         let posX = Math.random() * 400 - 200;
+        let rotacion = 0;
 
         const caer = setInterval(() => {
           posY += velocidad;
-          confeti.style.transform = `translateY(${posY}px) translateX(${posX}px)`;
+          rotacion += 5;
+          confeti.style.transform = `translateY(${posY}px) translateX(${posX}px) rotate(${rotacion}deg)`;
           
           if (posY > window.innerHeight) {
             clearInterval(caer);
