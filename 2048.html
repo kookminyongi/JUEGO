@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>2048 Game</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      padding: 20px;
+    }
+
+    .contenedor {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 40px;
+    }
+
+    .info {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .score, .best {
+      background: #f0f0f0;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 18px;
+    }
+
+    .score-valor, .best-valor {
+      font-size: 28px;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .botones {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #764ba2;
+    }
+
+    .tablero {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      background: #bbada0;
+      padding: 10px;
+      border-radius: 10px;
+      width: 340px;
+      height: 340px;
+      margin: 0 auto;
+    }
+
+    .celda {
+      background: #cdc1b4;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 35px;
+      font-weight: bold;
+      color: #776e65;
+      transition: all 0.15s ease-in-out;
+    }
+
+    .celda.vacia {
+      background: #cdc1b4;
+    }
+
+    .celda[data-valor="2"] {
+      background: #eee4da;
+      color: #776e65;
+    }
+
+    .celda[data-valor="4"] {
+      background: #ede0c8;
+      color: #776e65;
+    }
+
+    .celda[data-valor="8"] {
+      background: #f2b179;
+      color: white;
+    }
+
+    .celda[data-valor="16"] {
+      background: #f59563;
+      color: white;
+    }
+
+    .celda[data-valor="32"] {
+      background: #f67c5f;
+      color: white;
+    }
+
+    .celda[data-valor="64"] {
+      background: #f65e3b;
+      color: white;
+    }
+
+    .celda[data-valor="128"] {
+      background: #edcf72;
+      color: #776e65;
+      font-size: 30px;
+    }
+
+    .celda[data-valor="256"] {
+      background: #edcc61;
+      color: #776e65;
+      font-size: 30px;
+    }
+
+    .celda[data-valor="512"] {
+      background: #edc850;
+      color: #776e65;
+      font-size: 30px;
+    }
+
+    .celda[data-valor="1024"] {
+      background: #edc53f;
+      color: #776e65;
+      font-size: 25px;
+    }
+
+    .celda[data-valor="2048"] {
+      background: #edc22e;
+      color: #776e65;
+      font-size: 25px;
+    }
+
+    .celda[data-valor="4096"] {
+      background: #3c3c2f;
+      color: white;
+      font-size: 25px;
+    }
+
+    .celda[data-valor="8192"] {
+      background: #3c3c2f;
+      color: #edc22e;
+      font-size: 20px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal.activo {
+      display: flex;
+    }
+
+    .modal-contenido {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-contenido h2 {
+      font-size: 36px;
+      margin-bottom: 15px;
+      color: #667eea;
+    }
+
+    .modal-contenido p {
+      font-size: 20px;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .modal-contenido button {
+      padding: 15px 40px;
+      font-size: 18px;
+    }
+
+    .instrucciones {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #666;
+      max-width: 340px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="contenedor">
+    <h1>2048</h1>
+    
+    <div class="info">
+      <div class="score">
+        Score<br>
+        <span class="score-valor">0</span>
+      </div>
+      <div class="best">
+        Best<br>
+        <span class="best-valor">0</span>
+      </div>
+    </div>
+
+    <div class="botones">
+      <button onclick="nuevoJuego()">Nuevo Juego</button>
+      <button onclick="mostrarInstrucciones()">Instrucciones</button>
+    </div>
+
+    <div class="tablero" id="tablero"></div>
+
+    <div class="instrucciones">
+      <strong>Cómo jugar:</strong> Usa las flechas del teclado para mover las fichas. Combina dos números iguales para crear uno nuevo. ¡Alcanza 2048!
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-contenido">
+      <h2 id="modalTitulo">¡Ganaste!</h2>
+      <p id="modalMensaje">¡Alcanzaste 2048!</p>
+      <button onclick="cerrarModal()">Continuar Jugando</button>
+      <button onclick="nuevoJuego()">Nuevo Juego</button>
+    </div>
+  </div>
+
+  <script>
+    let tablero = [];
+    let score = 0;
+    let bestScore = localStorage.getItem('best2048') || 0;
+
+    const SIZE = 4;
+
+    function inicializarTablero() {
+      tablero = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
+      agregarNuevaFicha();
+      agregarNuevaFicha();
+      score = 0;
+      renderizar();
+    }
+
+    function agregarNuevaFicha() {
+      const celdas = [];
+      for (let i = 0; i < SIZE; i++) {
+        for (let j = 0; j < SIZE; j++) {
+          if (tablero[i][j] === 0) {
+            celdas.push({ i, j });
+          }
+        }
+      }
+
+      if (celdas.length > 0) {
+        const { i, j } = celdas[Math.floor(Math.random() * celdas.length)];
+        tablero[i][j] = Math.random() < 0.9 ? 2 : 4;
+      }
+    }
+
+    function renderizar() {
+      const tableroDiv = document.getElementById('tablero');
+      tableroDiv.innerHTML = '';
+
+      for (let i = 0; i < SIZE; i++) {
+        for (let j = 0; j < SIZE; j++) {
+          const valor = tablero[i][j];
+          const celda = document.createElement('div');
+          celda.className = 'celda';
+          if (valor !== 0) {
+            celda.textContent = valor;
+            celda.setAttribute('data-valor', valor);
+          } else {
+            celda.className += ' vacia';
+          }
+          tableroDiv.appendChild(celda);
+        }
+      }
+
+      document.querySelector('.score-valor').textContent = score;
+      document.querySelector('.best-valor').textContent = bestScore;
+    }
+
+    function mover(direccion) {
+      let movido = false;
+
+      if (direccion === 'ArrowLeft' || direccion === 'a') {
+        for (let i = 0; i < SIZE; i++) {
+          const fila = tablero[i].filter(val => val !== 0);
+          for (let j = 0; j < fila.length - 1; j++) {
+            if (fila[j] === fila[j + 1]) {
+              fila[j] *= 2;
+              score += fila[j];
+              fila.splice(j + 1, 1);
+            }
+          }
+          tablero[i] = [...fila, ...Array(SIZE - fila.length).fill(0)];
+          movido = true;
+        }
+      } else if (direccion === 'ArrowRight' || direccion === 'd') {
+        for (let i = 0; i < SIZE; i++) {
+          const fila = tablero[i].filter(val => val !== 0).reverse();
+          for (let j = 0; j < fila.length - 1; j++) {
+            if (fila[j] === fila[j + 1]) {
+              fila[j] *= 2;
+              score += fila[j];
+              fila.splice(j + 1, 1);
+            }
+          }
+          tablero[i] = [...Array(SIZE - fila.length).fill(0), ...fila.reverse()];
+          movido = true;
+        }
+      } else if (direccion === 'ArrowUp' || direccion === 'w') {
+        for (let j = 0; j < SIZE; j++) {
+          const columna = [];
+          for (let i = 0; i < SIZE; i++) {
+            if (tablero[i][j] !== 0) columna.push(tablero[i][j]);
+          }
+          for (let i = 0; i < columna.length - 1; i++) {
+            if (columna[i] === columna[i + 1]) {
+              columna[i] *= 2;
+              score += columna[i];
+              columna.splice(i + 1, 1);
+            }
+          }
+          const nuevaColumna = [...columna, ...Array(SIZE - columna.length).fill(0)];
+          for (let i = 0; i < SIZE; i++) {
+            tablero[i][j] = nuevaColumna[i];
+          }
+          movido = true;
+        }
+      } else if (direccion === 'ArrowDown' || direccion === 's') {
+        for (let j = 0; j < SIZE; j++) {
+          const columna = [];
+          for (let i = 0; i < SIZE; i++) {
+            if (tablero[i][j] !== 0) columna.push(tablero[i][j]);
+          }
+          columna.reverse();
+          for (let i = 0; i < columna.length - 1; i++) {
+            if (columna[i] === columna[i + 1]) {
+              columna[i] *= 2;
+              score += columna[i];
+              columna.splice(i + 1, 1);
+            }
+          }
+          const nuevaColumna = [...Array(SIZE - columna.length).fill(0), ...columna.reverse()];
+          for (let i = 0; i < SIZE; i++) {
+            tablero[i][j] = nuevaColumna[i];
+          }
+          movido = true;
+        }
+      }
+
+      if (movido) {
+        agregarNuevaFicha();
+        renderizar();
+        verificarEstado();
+      }
+    }
+
+    function verificarEstado() {
+      // Verificar si ganó
+      for (let i = 0; i < SIZE; i++) {
+        for (let j = 0; j < SIZE; j++) {
+          if (tablero[i][j] === 2048) {
+            mostrarModal('¡Ganaste! 🎉', '¡Alcanzaste 2048!');
+            return;
+          }
+        }
+      }
+
+      // Verificar si perdió
+      let puedeMoverse = false;
+      for (let i = 0; i < SIZE; i++) {
+        for (let j = 0; j < SIZE; j++) {
+          if (tablero[i][j] === 0) puedeMoverse = true;
+          if (j < SIZE - 1 && tablero[i][j] === tablero[i][j + 1]) puedeMoverse = true;
+          if (i < SIZE - 1 && tablero[i][j] === tablero[i + 1][j]) puedeMoverse = true;
+        }
+      }
+
+      if (!puedeMoverse) {
+        mostrarModal('¡Game Over! 😢', 'No hay más movimientos posibles');
+        if (score > bestScore) {
+          bestScore = score;
+          localStorage.setItem('best2048', bestScore);
+        }
+      }
+    }
+
+    function mostrarModal(titulo, mensaje) {
+      document.getElementById('modalTitulo').textContent = titulo;
+      document.getElementById('modalMensaje').textContent = mensaje;
+      document.getElementById('modal').classList.add('activo');
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal').classList.remove('activo');
+    }
+
+    function nuevoJuego() {
+      cerrarModal();
+      inicializarTablero();
+    }
+
+    function mostrarInstrucciones() {
+      alert('🎮 Cómo jugar 2048:\n\n1. Usa las FLECHAS del teclado para mover\n2. Combina dos números iguales\n3. Crea números más grandes\n4. ¡Alcanza 2048!\n\nControles:\n← Izquierda | → Derecha\n↑ Arriba | ↓ Abajo\n\no usa: W, A, S, D');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].includes(e.key)) {
+        e.preventDefault();
+        mover(e.key);
+      }
+    });
+
+    bestScore = localStorage.getItem('best2048') || 0;
+    document.querySelector('.best-valor').textContent = bestScore;
+    inicializarTablero();
+  </script>
+
+</body>
+</html>
