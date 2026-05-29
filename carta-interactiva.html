@@ -1,408 +1,246 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carta Interactiva - Para Camila</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta para Camila 💌</title>
 
-    body {
-      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Poppins', sans-serif;
-      overflow: hidden;
-    }
+<style>
 
-    /* Partículas de fondo */
-    .particula {
-      position: fixed;
-      pointer-events: none;
-      font-size: 20px;
-      opacity: 0.6;
-      animation: flotar 6s infinite;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    @keyframes flotar {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-        opacity: 0.6;
-      }
-      50% {
-        transform: translateY(-30px) rotate(180deg);
-        opacity: 1;
-      }
-    }
+body{
+    overflow:hidden;
+    height:100vh;
+    background: linear-gradient(to bottom, #0f172a, #1e293b);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family: Arial, sans-serif;
+}
 
-    .contenedor-principal {
-      perspective: 1000px;
-      width: 100%;
-      max-width: 500px;
-      padding: 20px;
-    }
+/* Fondo */
+.fondo{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:70px;
+    color:rgba(255,255,255,0.08);
+    font-weight:bold;
+    text-align:center;
+    animation: brillo 4s infinite alternate;
+}
 
-    .carta {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      transform-style: preserve-3d;
-      position: relative;
+@keyframes brillo{
+    from{
+        transform:scale(1);
+        opacity:0.1;
     }
-
-    .carta.abierta {
-      transform: rotateY(180deg);
+    to{
+        transform:scale(1.05);
+        opacity:0.25;
     }
+}
 
-    .carta-frente {
-      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-      padding: 60px 30px;
-      text-align: center;
-      color: #333;
-      min-height: 500px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      backface-visibility: hidden;
+/* Carta */
+.carta{
+    position:relative;
+    width:320px;
+    height:220px;
+    background:#ffccd5;
+    border-radius:15px;
+    cursor:pointer;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    transition:1s;
+    overflow:hidden;
+    z-index:10;
+}
+
+.carta:hover{
+    transform:scale(1.03);
+}
+
+/* Tapa */
+.tapa{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:#ff8fab;
+    clip-path:polygon(0 0, 100% 0, 50% 55%);
+    transform-origin:top;
+    transition:1s;
+    z-index:5;
+}
+
+/* Texto */
+.mensaje{
+    position:absolute;
+    width:100%;
+    top:75%;
+    text-align:center;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    z-index:6;
+}
+
+/* Flores */
+.flores{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:30px;
+    opacity:0;
+    transition:2s;
+}
+
+/* Flor 3D */
+.flor{
+    position:relative;
+    width:90px;
+    height:90px;
+    transform-style:preserve-3d;
+    animation:girar 6s linear infinite;
+}
+
+.petalo{
+    position:absolute;
+    width:35px;
+    height:60px;
+    background:linear-gradient(to bottom,#ff4d6d,#ff8fab);
+    border-radius:50%;
+    left:28px;
+    top:15px;
+    transform-origin:center 45px;
+    box-shadow:0 0 10px rgba(255,255,255,0.5);
+}
+
+.petalo:nth-child(1){ transform:rotate(0deg) translateY(-20px);}
+.petalo:nth-child(2){ transform:rotate(45deg) translateY(-20px);}
+.petalo:nth-child(3){ transform:rotate(90deg) translateY(-20px);}
+.petalo:nth-child(4){ transform:rotate(135deg) translateY(-20px);}
+.petalo:nth-child(5){ transform:rotate(180deg) translateY(-20px);}
+.petalo:nth-child(6){ transform:rotate(225deg) translateY(-20px);}
+.petalo:nth-child(7){ transform:rotate(270deg) translateY(-20px);}
+.petalo:nth-child(8){ transform:rotate(315deg) translateY(-20px);}
+
+.centro{
+    position:absolute;
+    width:35px;
+    height:35px;
+    background:gold;
+    border-radius:50%;
+    top:28px;
+    left:28px;
+    z-index:2;
+    box-shadow:0 0 15px gold;
+}
+
+/* Animación */
+@keyframes girar{
+    from{
+        transform:rotateY(0deg) rotateX(10deg);
     }
-
-    .carta-frente:hover {
-      transform: scale(1.02);
+    to{
+        transform:rotateY(360deg) rotateX(10deg);
     }
+}
 
-    .icono-sobre {
-      font-size: 100px;
-      margin-bottom: 20px;
-      animation: pulse 2s ease-in-out infinite;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-    }
+/* Carta abierta */
+.abierta .tapa{
+    transform:rotateX(180deg);
+}
 
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1) rotate(0deg);
-      }
-      50% {
-        transform: scale(1.1) rotate(5deg);
-      }
-    }
+.abierta{
+    width:100vw;
+    height:100vh;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+}
 
-    .titulo-sobre {
-      font-size: 32px;
-      font-weight: bold;
-      margin-bottom: 15px;
-      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+.abierta .mensaje{
+    display:none;
+}
 
-    .subtitulo-sobre {
-      font-size: 16px;
-      opacity: 0.9;
-      margin-bottom: 30px;
-    }
+.abierta .flores{
+    opacity:1;
+}
 
-    .instruccion {
-      font-size: 14px;
-      opacity: 0.8;
-      animation: parpadeo 1.5s ease-in-out infinite;
-    }
-
-    @keyframes parpadeo {
-      0%, 100% { opacity: 0.8; }
-      50% { opacity: 1; }
-    }
-
-    .carta-detras {
-      background: white;
-      padding: 40px 30px;
-      min-height: 500px;
-      transform: rotateY(180deg);
-      backface-visibility: hidden;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .contenido-carta {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .saludo {
-      font-size: 24px;
-      color: #FFD700;
-      font-weight: bold;
-      margin-bottom: 20px;
-      animation: slideIn 0.8s ease-out;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .parrafo {
-      font-size: 15px;
-      color: #333;
-      line-height: 1.8;
-      margin-bottom: 15px;
-      text-align: justify;
-      animation: fadeIn 0.8s ease-out;
-      animation-fill-mode: both;
-    }
-
-    .parrafo:nth-child(2) { animation-delay: 0.2s; }
-    .parrafo:nth-child(3) { animation-delay: 0.4s; }
-    .parrafo:nth-child(4) { animation-delay: 0.6s; }
-    .parrafo:nth-child(5) { animation-delay: 0.8s; }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .despedida {
-      font-size: 16px;
-      color: #FFA500;
-      font-weight: bold;
-      margin-top: 20px;
-      animation: slideUp 0.8s ease-out 1s both;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .firma {
-      margin-top: 15px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #FFD700;
-      animation: slideUp 0.8s ease-out 1.2s both;
-    }
-
-    .girasoles-firma {
-      font-size: 24px;
-      margin-top: 10px;
-      animation: bounceGirasol 1s ease-in-out infinite 1.4s;
-    }
-
-    @keyframes bounceGirasol {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-
-    .pie-carta {
-      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-      padding: 20px;
-      text-align: center;
-      color: #333;
-      font-size: 13px;
-    }
-
-    .boton-cerrar {
-      background: #FFD700;
-      color: #333;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 12px;
-      transition: all 0.3s;
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    .boton-cerrar:hover {
-      background: #FFA500;
-      transform: scale(1.05);
-    }
-
-    .linea-decorativa {
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(90deg, #FFD700, #FFA500);
-      margin: 15px auto;
-      border-radius: 2px;
-    }
-
-    /* Efecto brillo */
-    .brillo {
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-      transform: rotate(45deg);
-      animation: brillar 3s infinite;
-    }
-
-    @keyframes brillar {
-      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .titulo-sobre {
-        font-size: 24px;
-      }
-      .saludo {
-        font-size: 20px;
-      }
-      .parrafo {
-        font-size: 14px;
-      }
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-  <div class="contenedor-principal">
-    <div class="carta" id="carta">
-      <!-- Frente de la carta -->
-      <div class="carta-frente" onclick="abrirCarta()">
-        <div class="icono-sobre">🌻</div>
-        <div class="titulo-sobre">Tengo algo para ti</div>
-        <div class="subtitulo-sobre">Una carta especial</div>
-        <div class="linea-decorativa"></div>
-        <div class="instruccion">👆 Haz clic para abrir</div>
-      </div>
+<div class="fondo">
+    CAMILA TE QUIERO MUCHO 💖
+</div>
 
-      <!-- Atrás de la carta -->
-      <div class="carta-detras">
-        <div class="contenido-carta">
-          <div class="saludo">Mi amor 🌻</div>
-          
-          <p class="parrafo">
-            Hoy quería escribirte para decirte lo importante que eres para mí. Cada día que pasa a tu lado es un regalo que no me canso de agradecer. Tu sonrisa ilumina mis días más oscuros, y tu presencia llena de alegría cada momento que compartimos.
-          </p>
+<div class="carta" onclick="abrirCarta(this)">
 
-          <p class="parrafo">
-            Eres la persona que quería conocer sin saber que te estaba buscando. En ti encontré no solo a alguien especial, sino a mi mejor amiga, mi compañera de aventuras, mi todo. Tu risa es mi música favorita, tus ojos son mi paz, tu corazón es mi hogar.
-          </p>
+    <div class="tapa"></div>
 
-          <p class="parrafo">
-            Quiero que sepas que cada detalle de ti me fascina: la forma en que sonríes, la manera en que me miras, tu bondad, tu fuerza, tu vulnerabilidad. Eres perfectamente imperfecta y eso es lo que te hace hermosa.
-          </p>
-
-          <p class="parrafo">
-            Prometo estar para ti en los buenos y malos momentos. Prometo hacerte feliz, hacerte reír, hacerte sentir que eres la persona más importante del mundo. Porque para mí, lo eres.
-          </p>
-
-          <p class="parrafo">
-            Te amo más de lo que las palabras pueden expresar. Eres mi razón de sonreír, mi razón de creer en el amor verdadero. Gracias por existir, por ser mía, por permitirme ser tuyo.
-          </p>
-
-          <div class="linea-decorativa"></div>
-
-          <div class="despedida">
-            Con todo mi amor,
-            <div class="firma">Siempre tuyo 🌻</div>
-            <div class="girasoles-firma">🌻 🌻 🌻</div>
-          </div>
-        </div>
-
-        <div class="pie-carta">
-          <button class="boton-cerrar" onclick="cerrarCarta()">Cerrar carta</button>
-        </div>
-      </div>
+    <div class="mensaje">
+        💌 Presiona para abrir carta
     </div>
-  </div>
 
-  <script>
-    function abrirCarta() {
-      document.getElementById('carta').classList.add('abierta');
-      crearConfeti();
-    }
+    <div class="flores">
 
-    function cerrarCarta() {
-      document.getElementById('carta').classList.remove('abierta');
-    }
+        <div class="flor">
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="centro"></div>
+        </div>
 
-    // Crear partículas flotantes
-    function crearParticulas() {
-      const emojis = ['🌻', '🌼', '✨', '💛', '🌟'];
-      
-      for (let i = 0; i < 15; i++) {
-        const particula = document.createElement('div');
-        particula.className = 'particula';
-        particula.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        particula.style.left = Math.random() * window.innerWidth + 'px';
-        particula.style.top = Math.random() * window.innerHeight + 'px';
-        particula.style.animationDuration = (4 + Math.random() * 4) + 's';
-        particula.style.animationDelay = Math.random() * 2 + 's';
-        document.body.appendChild(particula);
-      }
-    }
+        <div class="flor">
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="centro"></div>
+        </div>
 
-    // Crear efecto confeti al abrir
-    function crearConfeti() {
-      const colores = ['🌻', '🌼', '💛', '✨', '🌟'];
-      for (let i = 0; i < 25; i++) {
-        const confeti = document.createElement('div');
-        confeti.style.position = 'fixed';
-        confeti.style.left = Math.random() * window.innerWidth + 'px';
-        confeti.style.top = '-10px';
-        confeti.textContent = colores[Math.floor(Math.random() * colores.length)];
-        confeti.style.fontSize = (20 + Math.random() * 30) + 'px';
-        confeti.style.pointerEvents = 'none';
-        confeti.style.zIndex = '9999';
-        document.body.appendChild(confeti);
+        <div class="flor">
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="petalo"></div>
+            <div class="centro"></div>
+        </div>
 
-        let velocidad = 2 + Math.random() * 4;
-        let posY = 0;
-        let posX = Math.random() * 400 - 200;
-        let rotacion = 0;
+    </div>
 
-        const caer = setInterval(() => {
-          posY += velocidad;
-          rotacion += 5;
-          confeti.style.transform = `translateY(${posY}px) translateX(${posX}px) rotate(${rotacion}deg)`;
-          
-          if (posY > window.innerHeight) {
-            clearInterval(caer);
-            confeti.remove();
-          }
-        }, 30);
-      }
-    }
+</div>
 
-    // Inicializar
-    crearParticulas();
-  </script>
+<script>
+function abrirCarta(carta){
+    carta.classList.add("abierta");
+}
+</script>
 
 </body>
 </html>
